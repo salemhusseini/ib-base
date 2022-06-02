@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button menuId="menu-main"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Discover Places</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-segment value="all" (ionChange)="onFilterUpdate($event)">
+    <ion-segment-button value="all">
+      <ion-label>All Places</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="bookable">
+      <ion-label>Bookable Places</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-grid *ngIf="places$ | async as places else no_places;">
+    <!-- Featured -->
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <ion-card *ngFor="let place of places.slice(0,1)">
+          <ion-card-header>
+            <ion-card-title>{{place.title}}</ion-card-title>
+            <ion-card-subtitle
+              >{{ place.price | currency }} / Night</ion-card-subtitle
+            >
+          </ion-card-header>
+          <ion-img *ngIf="place.imageUrl" [src]="place.imageUrl"></ion-img>
+
+          <ion-card-content> <p>{{place.description}}</p></ion-card-content>
+          <div class="ion-text-right">
+            <ion-button
+              fill="clear"
+              color="primary"
+              [routerLink]="['/', 'places', 'tabs', 'discover', place.pid]"
+            >
+              More
+            </ion-button>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <!-- Other Places -->
+    <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        <cdk-virtual-scroll-viewport
+          class="ion-content-scroll-host"
+          itemSize="72"
+          minBufferPx="720"
+          maxBufferPx="1440"
+        >
+          <ion-list>
+            <ion-item
+              *cdkVirtualFor="let place of places.slice(1)"
+              [routerLink]="['/', 'places','tabs','discover', place.pid]"
+              detail
+            >
+              <ion-thumbnail *ngIf="place.imageUrl" slot="start">
+                <ion-img [src]="place.imageUrl"></ion-img>
+              </ion-thumbnail>
+              <ion-label>
+                <h2>{{place.title}}</h2>
+                <p>{{place.description}}</p>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </cdk-virtual-scroll-viewport>
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row>
+      <ion-col size="12" size-sm="8" offset-sm="2" class="ion-text-center">
+        
+        <ion-list>
+          <ion-item
+            *ngFor="let place of places.slice(1)"
+            [routerLink]="['/', 'places','tabs','discover', place.pid]"
+            detail
+            >
+            <ion-thumbnail *ngIf="place.imageUrl" slot="start">
+              <ion-img [src]="place.imageUrl"></ion-img>
+            </ion-thumbnail>
+            <ion-label>
+              <h2>{{place.title}}</h2>
+              <p>{{place.description}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+        
+      </ion-col>
+    </ion-row> -->
+  </ion-grid>
+  <ng-template #no_places>It is empty</ng-template>
+</ion-content>

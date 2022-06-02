@@ -1,0 +1,7 @@
+{
+  "name": "ib-front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,21 @@
+version: "3"
+services:
+  postgres:
+    restart: always
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_PASSWORD=ionic_password
+      - POSTGRES_USER=ionic
+      - POSTGRES_DB=IONICDB
+    ports:
+      - "5432:5432"
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    ports:
+      - "5555:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pg@pg.pg
+      PGADMIN_DEFAULT_PASSWORD: pgpgpg
+    restart: always
