@@ -44,7 +44,6 @@ export class CreateOfferDto {
   imageUrl: string;
 
   //@IsString()
-
   @IsNotEmpty()
   location: LocationProperties;
 }

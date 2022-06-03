@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { SplashScreen } from '@capacitor/splash-screen';
+import { Geolocation } from '@capacitor/geolocation';
 import { Platform } from '@ionic/angular';
 
 import { AuthService } from '../auth/data-access/services/auth.service';
@@ -19,11 +20,22 @@ export class AppComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  async ngOnInit() {
-    console.log(Capacitor.isPluginAvailable('SplashScreen'));
+  ngOnInit() {
     this.authService.autoAuthUser();
     this.platform.ready().then(async () => {
       console.log('it is ready');
+      await SplashScreen.show({
+        showDuration: 2000,
+        autoHide: true,
+      });
+      console.log(Capacitor.isPluginAvailable('SplashScreen'));
+      console.log(Capacitor.isPluginAvailable('Geolocation'));
+      const printCurrentPosition = async () => {
+        const coordinates = await Geolocation.getCurrentPosition();
+        console.log('testing');
+
+        console.log('Current position:', coordinates);
+      };
       // await SplashScreen.show({
       //   autoHide: false,
       // });
